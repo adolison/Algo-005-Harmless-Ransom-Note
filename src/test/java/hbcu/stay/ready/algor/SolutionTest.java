@@ -29,4 +29,10 @@ public class SolutionTest {
         Boolean actual = solution.harmlessRansomNote(noteText, magazineText);
         Assert.assertTrue(actual);
     }
+    @Test
+    public void harmlessRansomNoteTestFail3(){
+        String noteText = "Happy Birthday";
+        Boolean actual = solution.harmlessRansomNote(noteText, magazineText);
+        Assert.assertFalse(actual);
+    }
 }

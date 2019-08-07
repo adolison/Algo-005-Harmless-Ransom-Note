@@ -1,53 +1,41 @@
 package hbcu.stay.ready.algor;
 
-import java.util.TreeMap;
+import java.util.HashMap;
 
 public class Solution {
-    //go through message and make sure secret does not repeat
-    // or go through message and find words in message that appear in magazine text; then count multiples on both ends
     public Boolean harmlessRansomNote(String message , String magazineText){
-        //go through message and make sure secret does not repeat
-        TreeMap<String,Integer> tMap=new TreeMap<>();
-        String[] parts = message.split("\\.\\s|\\s|!");
-       // String[] magazineParts = magazineText.split("\\s|\\.");
-        int time =0;
-        Boolean answer = null;
-        //int count = 0;
-        //Boolean result=null;
 
+       String[] parts = message.split("\\.\\s|\\s|!");
+       String[] magazineParts = magazineText.split("\\s|\\.");
+        Boolean result=null;
 
-        for (int i=0;i<parts.length;i++){
-            if (parts[i].equals("secret")){
-               if (time==0) {
-                   time = 1;
-                   answer = true;
-               }else {
-                   time +=1;
-                answer = false;
-               }
+        //create Hashmap of magazineText
+        HashMap<String, Integer> hMap = new HashMap<>();
+        for(int x =0;x<magazineParts.length;x++){
+            if (hMap.containsKey(magazineParts[x])){
+                int val = hMap.get(magazineParts[x]);
+                hMap.replace(magazineParts[x],val,val+1);
+            }else{
+                hMap.put(magazineParts[x],1);
             }
         }
-
-       /* for(int a =0;a<magazineParts.length;a++){
-            for (int b=0;b<parts.length;b++){
-                if (magazineParts[a].equals(parts[b])&& !magazineParts.equals("a")){//or the, is, or any article
-                    if (count ==0){
-                        count =1;
-                        result = true;
-                    }else{
-                        count +=1;
-                        result = false;
-                    }
-                }
+        //for each word in the message find it in the hMap
+        for (String word : parts){
+            if(!hMap.containsKey(word)) {
+                result = false;
+                break;
             }
 
-        }*/
+            int value = hMap.get(word);
+            if (hMap.containsKey(word)&& value!=0){
+                hMap.put(word,value-1);
+                result = true;
+            }else{
+                result = false;
+                break;
+            }
 
-
-
-
-
-
-            return answer;
+        }
+        return result;
     }
 }
